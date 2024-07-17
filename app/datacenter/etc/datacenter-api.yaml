@@ -1,0 +1,22 @@
+Name: datacenter-api
+Host: 0.0.0.0
+Port: 8888
+Timeout: 60000
+
+Mode: ${MODE}
+Log:
+  ServiceName: datacenter-api
+
+DatacenterDB:
+  DataSource: ${DATACENTER_DB_DSN}
+
+Redis:
+  Host: ${API_SERVER_REDIS_HOST}
+  Pass:
+
+CacheRedis:
+  - Host: ${API_SERVER_CACHE_REDIS_HOST}
+    Pass: ${API_SERVER_CACHE_REDIS_PASS}
+
+SentryConf:
+  Dsn: ${SENTRY_CONF_DSN}

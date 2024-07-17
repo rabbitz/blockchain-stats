@@ -1,0 +1,66 @@
+version: "3.9"
+services:
+  datacenter-api:
+    build:
+      context: .
+      dockerfile: app/datacenter/Dockerfile
+    container_name: stats_api
+    environment:
+      - TZ=UTC
+      - MODE=${MODE}
+    working_dir: /app
+    ports:
+      - "2888:8888"
+      - "26091:6091"
+    restart: always
+    networks:
+      - stats_net
+    depends_on:
+      - mysql
+      - redis
+  mysql:
+    image: mysql:${MYSQL_TAG}
+    init: true
+    container_name: stats_mysql
+    environment:
+      - TZ=UTC
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "23306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    restart: always
+    networks:
+      - stats_net
+  redis:
+    image: redis:${REDIS_TAG}
+    init: true
+    container_name: stats_redis
+    ports:
+      - "26379:6379"
+    environment:
+      - TZ=UTC
+    volumes:
+      - redis_data:/data:rw
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    restart: always
+    networks:
+      - stats_net
+volumes:
+  mysql_data:
+    name: ${MYSQL_VOLUME_ID}
+  redis_data:
+    name: ${REDIS_VOLUME_ID}
+networks:
+  stats_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DOCKER_SUBNET}
+          gateway: ${DOCKER_GATEWAY}

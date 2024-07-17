@@ -1,0 +1,4 @@
+package datacenter
+
+func main() {
+}
