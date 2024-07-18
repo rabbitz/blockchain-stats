@@ -13,7 +13,7 @@ ADD go.mod .
 ADD go.sum .
 RUN go mod download
 COPY .. .
-COPY app/stats/etc /app/etc
+COPY app/datacenter/etc /app/etc
 RUN go build -ldflags="-s -w" -o /app/datacenter app/datacenter/datacenter.go
 
 FROM alpine:latest
@@ -23,7 +23,7 @@ COPY --from=builder /usr/share/zoneinfo/UTC /usr/share/zoneinfo/UTC
 ENV TZ UTC
 
 WORKDIR /app
-COPY --from=builder /app/datacenter /app/stats
+COPY --from=builder /app/datacenter /app/datacenter
 COPY --from=builder /app/etc /app/etc
 
 CMD ["./datacenter", "-f", "etc/datacenter-api.yaml"]

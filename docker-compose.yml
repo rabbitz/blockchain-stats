@@ -1,10 +1,9 @@
-version: "3.9"
 services:
-  datacenter-api:
+  datacenter:
     build:
       context: .
       dockerfile: app/datacenter/Dockerfile
-    container_name: stats_api
+    container_name: datacenter
     environment:
       - TZ=UTC
       - MODE=${MODE}
@@ -14,14 +13,14 @@ services:
       - "26091:6091"
     restart: always
     networks:
-      - stats_net
+      - datacenter_net
     depends_on:
       - mysql
       - redis
   mysql:
     image: mysql:${MYSQL_TAG}
     init: true
-    container_name: stats_mysql
+    container_name: datacenter_mysql
     environment:
       - TZ=UTC
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -37,11 +36,11 @@ services:
       --lower_case_table_names=1
     restart: always
     networks:
-      - stats_net
+      - datacenter_net
   redis:
     image: redis:${REDIS_TAG}
     init: true
-    container_name: stats_redis
+    container_name: datacenter_redis
     ports:
       - "26379:6379"
     environment:
@@ -51,14 +50,14 @@ services:
     command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
     restart: always
     networks:
-      - stats_net
+      - datacenter_net
 volumes:
   mysql_data:
     name: ${MYSQL_VOLUME_ID}
   redis_data:
     name: ${REDIS_VOLUME_ID}
 networks:
-  stats_net:
+  datacenter_net:
     driver: bridge
     ipam:
       config:
