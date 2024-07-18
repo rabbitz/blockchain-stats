@@ -18,3 +18,10 @@
 # IDE
 .idea/
 .vscode/
+
+# Stats
+bin/
+app/datacenter/etc/*.dev.yaml
+app/datacenter/tmp
+deploy/.env.local
+app/datacenter/testdata/*.local.yaml
