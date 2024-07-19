@@ -24,7 +24,7 @@ endif
 ifeq ($(origin SVC_NAME), undefined)
 	$(error "please enter SVC_NAME")
 endif
-	goctl api go -api $(API_FILE) -dir 'app/$(SVC_NAME)' --style=goZero --home 'deploy/goctl/1.3.5'
+	goctl api go -api $(API_FILE) -dir 'app/$(SVC_NAME)' --style=goZero --home 'deploy/goctl/1.6.6'
 
 .PHONY: model
 # generate model related files

@@ -1,0 +1,23 @@
+/*
+Copyright (c) 2020 go-kratos, All Rights Reserved
+Distributed under MIT license. See file LICENSE for detail or copy at https://opensource.org/licenses/MIT
+*/
+
+syntax = "proto3";
+
+package errors;
+
+option go_package = "github.com/go-kratos/kratos/v2/errors;errors";
+option java_multiple_files = true;
+option java_package = "com.github.kratos.errors";
+option objc_class_prefix = "KratosErrors";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.EnumOptions {
+  int32 default_code = 1108;
+}
+
+extend google.protobuf.EnumValueOptions {
+  int32 code = 1109;
+}

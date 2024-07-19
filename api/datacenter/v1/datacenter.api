@@ -1,0 +1,9 @@
+syntax = "v1"
+
+info (
+	title:   "datacenter service"
+	desc:    "contains all services related to ckb blockchain stats operations"
+	version: "v1"
+)
+
+import "ckb_stats.api"

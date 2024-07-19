@@ -1,0 +1,19 @@
+syntax = "v1"
+
+type ()
+
+@server(
+	prefix: api/v1
+	group: ckb_stats
+	timeout: 600s
+)
+
+service datacenter-api {
+
+	@doc(
+		summary: "/ckb_transaction_tracking"
+		description: "get the count and volume of transactions within the specified range"
+	)
+	@handler TransactionTracking
+	get /ckb_transaction_tracking
+}
